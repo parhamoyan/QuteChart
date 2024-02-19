@@ -20,7 +20,7 @@
 
 int main(int argc, char *argv[])
 {
-    Backend::generateMonthlyDataToJson();
+//    Backend::generateMonthlyDataToJson();
     set_qt_environment();
 
     QGuiApplication app(argc, argv);

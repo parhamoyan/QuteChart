@@ -23,7 +23,7 @@ Item {
 
     layer.enabled: true
     layer.effect: ShaderEffect {
-        readonly property vector3d iResolution: Qt.vector3d(width, height, 1.0)
+        readonly property vector3d iResolution: Qt.vector3d(width*2, height*2, 1.0)
         readonly property Item iSource: rootItem
         readonly property real left_stop: rootItem.left_stop
         readonly property real right_stop: rootItem.right_stop
@@ -48,18 +48,35 @@ Item {
         return result;
     }
 
+    function addZerosToOffsets(numbers) {
+        // Convert numbers to strings and join into a single string
+        let numString = numbers.join("");
+
+        // Insert commas every three digits from the right
+        let result = [];
+        for (let i = 0; i < numString.length; i++) {
+            if (i > 0 && (numString.length - i) % 3 === 0) {
+                result.push(0);
+            }
+            result.push(numString[i]);
+        }
+
+        return result;
+    }
+
     function numberToArray(number) {
         let numberString = number.toString();
         rootItem.numberString = numberString;
-        let charArray = numberString.split('');
-        const res = addCommasToNumbers(charArray);
-        charArray = res;
+        let chars = numberString.split('');
+        const res = addZerosToOffsets(chars);
+        charArray = addCommasToNumbers(chars);
         return charArray.map(Number);
     }
 
     function setNumber(numberString) {
         var numbers = numberToArray(numberString);
         rootItem.columnYOffsets = numbers;
+
         xPositions = calculateXPositions(numberString);
         colRepeater.modelChanged();
     }
