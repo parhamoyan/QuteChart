@@ -6,8 +6,6 @@ import backend 1.0
 
 Item {
     id: rootItem
-    width: 354
-    height: 100
 
     property var columnYOffsets: [9, 9, 9, 0, 9, 9, 9]
     property string numberString: "000000"
@@ -17,6 +15,8 @@ Item {
     property var xPositions;
     property var charArray: [9, 9, 9, ",", 9, 9, 9];
 
+    width: 354
+    height: 100
     layer.enabled: true
     layer.effect: ShaderEffect {
         readonly property vector3d iResolution: Qt.vector3d(width*2, height*2, 1.0)
@@ -29,7 +29,6 @@ Item {
     }
 
     function formatNumberString(numberString, insertItem) {
-        // Insert commas every three digits from the right
         let result = [];
         for (let i = 0; i < numberString.length; i++) {
             if (i > 0 && (numberString.length - i) % 3 === 0) {
@@ -87,8 +86,8 @@ Item {
 
             Repeater {
                 id: rowRepeater
-                model: 10
                 property int col: index;
+                model: 10
 
                 delegate: Text {
                     id: number
@@ -127,6 +126,7 @@ Item {
                             duration: 800
                         }
                     }
+
                     Behavior on x {
                         enabled: initialized
                         NumberAnimation {
