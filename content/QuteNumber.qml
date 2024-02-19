@@ -10,15 +10,11 @@ Item {
     height: 100
 
     property var columnYOffsets: [9, 9, 9, 0, 9, 9, 9]
-
     property string numberString: "000000"
-
     property bool initialized: false
-
     property real left_stop: 0.1
     property real right_stop: 0.9
     property var xPositions;
-
     property var charArray: [9, 9, 9, ",", 9, 9, 9];
 
     layer.enabled: true
@@ -64,19 +60,16 @@ Item {
         return result;
     }
 
-    function numberToArray(number) {
+
+    // todo: code clean up
+    function setNumber(number) {
         let numberString = number.toString();
         rootItem.numberString = numberString;
         let chars = numberString.split('');
-        const res = addZerosToOffsets(chars);
+        const res = addZerosToOffsets(chars.map(Number));
         charArray = addCommasToNumbers(chars);
-        return charArray.map(Number);
-    }
-
-    function setNumber(numberString) {
         var numbers = numberToArray(numberString);
         rootItem.columnYOffsets = numbers;
-
         xPositions = calculateXPositions(numberString);
         colRepeater.modelChanged();
     }
