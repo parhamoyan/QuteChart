@@ -28,46 +28,25 @@ Item {
         Layout.alignment: Qt.AlignCenter
     }
 
-    function addCommasToNumbers(numbers) {
-        // Convert numbers to strings and join into a single string
-        let numString = numbers.join("");
-
+    function formatNumberString(numberString, insertItem) {
         // Insert commas every three digits from the right
         let result = [];
-        for (let i = 0; i < numString.length; i++) {
-            if (i > 0 && (numString.length - i) % 3 === 0) {
-                result.push(",");
+        for (let i = 0; i < numberString.length; i++) {
+            if (i > 0 && (numberString.length - i) % 3 === 0) {
+                result.push(insertItem);
             }
-            result.push(numString[i]);
+            result.push(numberString[i]);
         }
 
         return result;
     }
 
-    function addZerosToOffsets(numbers) {
-        // Convert numbers to strings and join into a single string
-        let numString = numbers.join("");
-
-        // Insert commas every three digits from the right
-        let result = [];
-        for (let i = 0; i < numString.length; i++) {
-            if (i > 0 && (numString.length - i) % 3 === 0) {
-                result.push(0);
-            }
-            result.push(numString[i]);
-        }
-
-        return result;
-    }
-
-
-    // todo: code clean up
     function setNumber(number) {
         let numberString = number.toString();
         rootItem.numberString = numberString;
         let chars = numberString.split('');
-        const numbers = addZerosToOffsets(chars.map(Number));
-        charArray = addCommasToNumbers(chars);
+        const numbers = formatNumberString(chars.map(Number), 0);
+        charArray = formatNumberString(numberString, ',');
         rootItem.columnYOffsets = numbers;
         xPositions = calculateXPositions(charArray);
         colRepeater.modelChanged();
