@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.21.1)
 option(LINK_INSIGHT "Link Qt Insight Tracker library" ON)
 option(BUILD_QDS_COMPONENTS "Build design studio components" OFF)
 
-project(CuteChartApp LANGUAGES CXX)
+project(QuteChartApp LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -13,17 +13,17 @@ if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
 
-qt_add_executable(CuteChartApp src/main.cpp
+qt_add_executable(QuteChartApp src/main.cpp
     src/Backend.h src/Backend.cpp
 )
 
-qt_add_resources(CuteChartApp "configuration"
+qt_add_resources(QuteChartApp "configuration"
     PREFIX "/"
     FILES
         qtquickcontrols2.conf
 )
 
-target_link_libraries(CuteChartApp PRIVATE
+target_link_libraries(QuteChartApp PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Qml
@@ -41,7 +41,7 @@ if (LINK_INSIGHT)
 endif ()
 
 include(GNUInstallDirs)
-install(TARGETS CuteChartApp
+install(TARGETS QuteChartApp
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
