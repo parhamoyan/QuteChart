@@ -66,11 +66,10 @@ Item {
         let numberString = number.toString();
         rootItem.numberString = numberString;
         let chars = numberString.split('');
-        const res = addZerosToOffsets(chars.map(Number));
+        const numbers = addZerosToOffsets(chars.map(Number));
         charArray = addCommasToNumbers(chars);
-        var numbers = numberToArray(numberString);
         rootItem.columnYOffsets = numbers;
-        xPositions = calculateXPositions(numberString);
+        xPositions = calculateXPositions(charArray);
         colRepeater.modelChanged();
     }
 
@@ -119,14 +118,6 @@ Item {
                     text: charArray[col]==="," ? "," : ((index === 9) ? "0" : (index).toString())
                     color: "white"
 
-                    TextMetrics {
-                        id: textMetrics
-                        font.family: "Wotfard"
-                        font.pixelSize: 32
-                        text: "9"
-                        font.weight: Font.Medium
-                    }
-
                     x: calculateX()
                     y: calculateY()
 
@@ -142,6 +133,15 @@ Item {
                         var _y = item1.height * index - columnYOffsets[col] * item1.height + (item1.height - textMetrics.height)/2;
                         return _y;
                     }
+
+                    TextMetrics {
+                        id: textMetrics
+                        font.family: "Wotfard"
+                        font.pixelSize: 32
+                        text: "9"
+                        font.weight: Font.Medium
+                    }
+
                     Behavior on y {
                         NumberAnimation {
                             easing.bezierCurve: [0.445,0.05,0.55,0.95,1,1]
