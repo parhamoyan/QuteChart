@@ -1,0 +1,101 @@
+{
+    "QEP": {
+        "QQEM": "0.43",
+        "connections": [
+            {
+                "fromId": 0,
+                "toId": 2
+            },
+            {
+                "fromId": 2,
+                "toId": 1
+            }
+        ],
+        "exportDirectory": "../../asset_imports/Effects/VerticalGradientOpacity",
+        "exportFlags": 11,
+        "exportName": "VerticalGradientOpacity",
+        "nodes": [
+            {
+                "fragmentCode": [
+                    "void main() {",
+                    "    fragColor = texture(iSource, texCoord);",
+                    "    @nodes",
+                    "    fragColor = fragColor * qt_Opacity;",
+                    "}"
+                ],
+                "name": "Main",
+                "nodeId": 0,
+                "type": 0,
+                "vertexCode": [
+                    "void main() {",
+                    "    texCoord = qt_MultiTexCoord0;",
+                    "    fragCoord = qt_Vertex.xy;",
+                    "    vec2 vertCoord = qt_Vertex.xy;",
+                    "    @nodes",
+                    "    gl_Position = qt_Matrix * vec4(vertCoord, 0.0, 1.0);",
+                    "}"
+                ],
+                "x": 140,
+                "y": 35.5
+            },
+            {
+                "name": "Output",
+                "nodeId": 1,
+                "type": 1,
+                "x": 140,
+                "y": 594.5
+            },
+            {
+                "description": "This is an empty node for creating custom effects.",
+                "fragmentCode": [
+                    "vec4 sourceColor = texture(iSource, texCoord);",
+                    "",
+                    "float opacity = 1.0;",
+                    "const float o = 0.2;  // opacity_offset",
+                    "const float stops[] = float[](0.0, max(0, left_stop), min(left_stop + o, 0.5), 0.5, max(right_stop - o, 0.5), right_stop, 1.0);",
+                    "const float opacities[] = float[](0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0);",
+                    "for (int i = 0; i < 6; ++i) {",
+                    "    if (texCoord.y <= stops[i+1]) {",
+                    "        if (texCoord.y <= stops[i]) {",
+                    "            opacity = 0.0; // Below the first stop, opacity is 0",
+                    "        } else {",
+                    "            // Interpolation factor",
+                    "            float t = (texCoord.y - stops[i]) / (stops[i+1] - stops[i]); ",
+                    "            // Interpolate opacity between stops",
+                    "            opacity = mix(opacities[i], opacities[i+1], t); ",
+                    "            break; // Exit loop when opacity is calculated",
+                    "        }",
+                    "    }",
+                    "}",
+                    "",
+                    "fragColor = sourceColor;",
+                    "fragColor = fragColor * opacity;"
+                ],
+                "name": "Custom",
+                "nodeId": 2,
+                "properties": [
+                    {
+                        "defaultValue": "0",
+                        "maxValue": "0.5",
+                        "minValue": "-0.05",
+                        "name": "left_stop",
+                        "type": "float",
+                        "value": "-0.05"
+                    },
+                    {
+                        "defaultValue": "0",
+                        "maxValue": "1.05",
+                        "minValue": "0.5",
+                        "name": "right_stop",
+                        "type": "float",
+                        "value": "1.05"
+                    }
+                ],
+                "type": 2,
+                "x": 105,
+                "y": 330
+            }
+        ],
+        "version": 1
+    }
+}
