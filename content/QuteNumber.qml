@@ -18,8 +18,9 @@ Item {
     width: 354
     height: 100
     layer.enabled: true
+    layer.textureSize: Qt.size(width * Screen.devicePixelRatio, height * Screen.devicePixelRatio)
     layer.effect: ShaderEffect {
-        readonly property vector3d iResolution: Qt.vector3d(width*2, height*2, 1.0)
+        readonly property vector3d iResolution: Qt.vector3d(width, height, 1.0)
         readonly property Item iSource: rootItem
         readonly property real left_stop: rootItem.left_stop
         readonly property real right_stop: rootItem.right_stop

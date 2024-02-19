@@ -92,6 +92,7 @@ Item {
             }
         }
         layer.enabled: true
+        layer.textureSize: Qt.size(width * Screen.devicePixelRatio, height * Screen.devicePixelRatio)
         layer.effect: ShaderEffect {
             readonly property Item iSource: dottedLineItem
             readonly property real left_stop: rootItem.left_stop
