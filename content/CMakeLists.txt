@@ -18,14 +18,12 @@ qt6_add_qml_module(content
         images/avg-polygon.svg
         fonts/Wotfard-Regular.otf
 
-        RESOURCES resources.qrc
-        QML_FILES QuteNumber.qml
-        QML_FILES QuteCombo.qml
-        QML_FILES Chart.qml
-        QML_FILES QuteLabel.qml
-        QML_FILES DateRangeText.qml
+    QML_FILES
+        QuteNumber.qml
+        QuteCombo.qml
+        Chart.qml
+        QuteLabel.qml
+        DateRangeText.qml
 
-        RESOURCES
-        QML_FILES
-        QML_FILES utils.js
+    QML_FILES utils.js
 )
