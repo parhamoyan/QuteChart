@@ -78,11 +78,17 @@ Item {
         id: backend
     }
 
-    Rectangle {
+    property Component background: Rectangle {
         anchors.fill: parent
         color: rootItem.backgroundColor
-        radius: 12
+        radius: rootItem.radius
         border.width: 0
+    }
+
+    Loader {
+        id: backgroundLoader
+        anchors.fill: parent
+        sourceComponent: rootItem.background
     }
 
     Frame {
