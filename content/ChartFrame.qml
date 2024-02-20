@@ -17,6 +17,9 @@ Item {
     property real change: 0
     property list<int> model: arrayWithNumber(31, 0);
 
+    property color backgroundColor: "#121114"
+    property real radius: 12
+
     function calculateQuteNumber() {
         const total = chart.model.reduce((a, b) => a + b);
         return total;
@@ -57,19 +60,6 @@ Item {
         initialized = true;
     }
 
-    Keys.onPressed: (event) => {
-        if (event.key === Qt.Key_Shift) {
-            chart.shiftPressed = true;
-        }
-    }
-
-    Keys.onReleased: (event) => {
-        if (event.key === Qt.Key_Shift) {
-            chart.shiftPressed = false;
-        }
-    }
-
-
     Behavior on changePercentage {
         PropertyAnimation {
             duration: 800
@@ -90,7 +80,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#121114"
+        color: rootItem.backgroundColor
         radius: 12
         border.width: 0
     }
