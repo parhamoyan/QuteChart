@@ -1,2 +1,6 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/">
+        <file>effects/VerticalGradientOpacity.qml</file>
+        <file>effects/HorizontalGradientOpacity.qml</file>
+    </qresource>
+</RCC>

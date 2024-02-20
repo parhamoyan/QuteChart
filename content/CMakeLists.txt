@@ -17,18 +17,15 @@ qt6_add_qml_module(content
         images/chevron-down.svg
         images/avg-polygon.svg
         fonts/Wotfard-Regular.otf
-        effects/HorizontalGradientOpacity.vert.qsb
-        effects/HorizontalGradientOpacity.frag.qsb
-        effects/VerticalGradientOpacity.vert.qsb
-        effects/VerticalGradientOpacity.frag.qsb
+
         RESOURCES resources.qrc
         QML_FILES QuteNumber.qml
         QML_FILES QuteCombo.qml
         QML_FILES Chart.qml
         QML_FILES QuteLabel.qml
         QML_FILES DateRangeText.qml
+
         RESOURCES
         QML_FILES
         QML_FILES utils.js
-
 )

@@ -1,5 +1,6 @@
 import QtQuick 6.2
 import QtQuick.Effects
+import QuteEffects 1.0
 
 Item {
     id: rootItem
@@ -91,15 +92,13 @@ Item {
                 x: index * (rectangle_width + spacing)
             }
         }
+
         layer.enabled: true
         layer.textureSize: Qt.size(width * Screen.devicePixelRatio, height * Screen.devicePixelRatio)
-        layer.effect: ShaderEffect {
-            readonly property Item iSource: dottedLineItem
-            readonly property real left_stop: rootItem.left_stop
-            readonly property real right_stop: rootItem.right_stop
-            vertexShader: 'effects/HorizontalGradientOpacity.vert.qsb'
-            fragmentShader: 'effects/HorizontalGradientOpacity.frag.qsb'
-            anchors.fill: dottedLineItem
+        layer.effect: HorizontalGradientOpacity {
+            iSource: dottedLineItem
+            left_stop: rootItem.left_stop
+            right_stop: rootItem.right_stop
             height: 1
         }
     }

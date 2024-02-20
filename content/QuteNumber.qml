@@ -3,6 +3,7 @@ import QtQuick.Controls 6.2
 import QtQuick.Layouts
 import QtQuick.Effects
 import backend 1.0
+import QuteEffects 1.0
 
 Item {
     id: rootItem
@@ -19,14 +20,10 @@ Item {
     height: 100
     layer.enabled: true
     layer.textureSize: Qt.size(width * Screen.devicePixelRatio, height * Screen.devicePixelRatio)
-    layer.effect: ShaderEffect {
-        readonly property vector3d iResolution: Qt.vector3d(width, height, 1.0)
-        readonly property Item iSource: rootItem
-        readonly property real left_stop: rootItem.left_stop
-        readonly property real right_stop: rootItem.right_stop
-        vertexShader: 'effects/VerticalGradientOpacity.vert.qsb'
-        fragmentShader: 'effects/VerticalGradientOpacity.frag.qsb'
-        Layout.alignment: Qt.AlignCenter
+    layer.effect: VerticalGradientOpacity {
+        iSource: rootItem
+        left_stop: rootItem.left_stop
+        right_stop: rootItem.right_stop
     }
 
     function formatNumberString(numberString, insertItem) {
