@@ -15,49 +15,16 @@ Item {
     property bool initialized: false;
     property real changePercentage: 0
     property real change: 0
-    property list<int> model: arrayWithNumber(31, 0);
-
+    property list<int> model;
     property color backgroundColor: "#121114"
     property real radius: 12
+    property string formattedChange: `${(change > 0 ? "+" : "")}${(change / 1000).toFixed(1)}K this month`
+    property string formattedChangePercentage: `${(changePercentage > 0 ? "+" : "")}${(changePercentage.toFixed(2))}%`
 
-    function calculateQuteNumber() {
-        const total = chart.model.reduce((a, b) => a + b);
-        return total;
-    }
+    signal comboBoxCurrentTextChanged(string currentText)
 
-    function differencePercentage(preMonth, currentMonth) {
-        if (preMonth === currentMonth) return 1.49;
-        const previousMonthData = backend.getMonthData(preMonth);
-        const currentMonthData = backend.getMonthData(currentMonth);
-        const tot = array => array.reduce((a, b) => a + b);
-        const preTotal = tot(previousMonthData);
-        const currentTotal = tot(currentMonthData);
-        const perc = (currentTotal - preTotal)/preTotal
-        return perc;
-    }
-
-    function difference(preMonth, currentMonth) {
-        if (preMonth === currentMonth) return 8100;
-        const previousMonthData = backend.getMonthData(preMonth);
-        const currentMonthData = backend.getMonthData(currentMonth);
-        const tot = array => array.reduce((a, b) => a + b);
-        const preTotal = tot(previousMonthData);
-        const currentTotal = tot(currentMonthData);
-        const change = currentTotal - preTotal;
-        return change;
-    }
-
-    function arrayWithNumber(length, number) {
-        return Array(length).fill(number);
-    }
-
-    Component.onCompleted: {
-        rootItem.model = backend.getMonthData(combo.currentText);
-        chart.updateChartBasedOnNewMonth(combo.currentText);
-        quteNumber.setNumber(calculateQuteNumber());
-        changePercentage = differencePercentage(chart.previousMonth, combo.currentText);
-        change = difference(chart.previousMonth, combo.currentText);
-        initialized = true;
+    function setQuteNumber(num) {
+        quteNumber.setNumber(num)
     }
 
     Behavior on changePercentage {
@@ -122,47 +89,14 @@ Item {
                     border.color: "transparent"
                 }
 
-                Row {
+                StatusItem {
                     id: pending_row
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 0
-                    spacing: 8
-
-                    Image {
-                        id: image
-                        width: 20
-                        height: 20
-                        source: "images/hourglass.svg"
-                        fillMode: Image.PreserveAspectFit
-                    }
-
-                    Text {
-                        id: text5
-                        width: 57
-                        height: 19
-                        text: qsTr("Pending")
-                        font.pixelSize: 16
-                        color: "#DADDE5"
-                        font.family: "Wotfard"
-                    }
                 }
 
                 QuteCombo {
                     id: combo
                     onCurrentTextChanged: {
-                        if (rootItem.initialized) {
-                            changePercentage = differencePercentage(chart.previousMonth, combo.currentText);
-                            change = difference(chart.previousMonth, combo.currentText);
-                        }
-
-                        chart.previousMonth = currentText;
-                        rootItem.model = backend.getMonthData(combo.currentText);
-                        chart.updateChartBasedOnNewMonth(combo.currentText);
-                        quteNumber.setNumber(calculateQuteNumber());
-                        chart.destroyLabel();
-                        chart.clearSelection();
-                        chart.nODays = Utils.numberOfDays(combo.currentText);
+                        comboBoxCurrentTextChanged(currentText);
                     }
                 }
             }
@@ -194,11 +128,7 @@ Item {
                     spacing: 10
 
                     Text {
-                        id: text1
-                        text: {
-                            var sign = changePercentage > 0 ? "+" : ""
-                            return sign + (changePercentage.toFixed(2)) + "%"
-                        }
+                        text: formattedChangePercentage
                         font.pixelSize: 14
                         verticalAlignment: Text.AlignVCenter
                         color: changePercentage === 0 ? "#808287" : (changePercentage > 0 ? "#6FCC5C" : "#F24453")
@@ -209,21 +139,15 @@ Item {
                     }
 
                     Text {
-                        id: text2
                         width: 150
                         color: "#808287"
-                        text: {
-                            var formattedValue = (change / 1000).toFixed(1);
-                            var sign = change > 0 ? "+" : ""
-                            return sign + formattedValue + "K this month";
-                        }
+                        text: formattedChange
                         font.pixelSize: 14
                         verticalAlignment: Text.AlignVCenter
                         Layout.fillHeight: true
                         font.family: "Wotfard"
                     }
                 }
-
             }
 
             Chart {

@@ -26,4 +26,6 @@ qt6_add_qml_module(content
         DateRangeText.qml
 
     QML_FILES utils.js
+    QML_FILES ChartFrameController.qml
+    QML_FILES StatusItem.qml
 )

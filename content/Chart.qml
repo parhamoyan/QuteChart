@@ -11,8 +11,6 @@ Frame {
     property list<int> model;
     property var previousLabel;
     property var label;
-    property string previousMonth: combo.currentText
-    property string currentMonth: combo.currentText
     property int nODays: 31;
 
     function getAverage() {
@@ -53,7 +51,7 @@ Frame {
         avgDottedLine.y = rootFrame.height - (rootFrame.getAverage() / Math.max(...chart.model) * 60) - avgDottedLine.height/2 - 30;
     }
 
-    function updateChartBasedOnNewMonth(month) {
+    function updateChart() {
         repeater.modelChanged();
         updateDottedLineY();
     }
@@ -115,7 +113,7 @@ Frame {
         property int maxRectHeight: 60
         property real count: chart.model.length;
         property real spacing: {
-            const i = Utils.numberOfDays(currentMonth);
+            const i = Utils.numberOfDays("January"); // TODO
             return (chart.width - i * rect_width) / (i-1)
         }
         property real rect_width: 4

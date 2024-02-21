@@ -9,7 +9,7 @@ Item {
     id: rootItem
 
     property var columnYOffsets: [9, 9, 9, 0, 9, 9, 9]
-    property string numberString: "000000"
+    property string text: "000000"
     property bool initialized: false
     property real left_stop: 0.1
     property real right_stop: 0.9
@@ -40,7 +40,7 @@ Item {
 
     function setNumber(number) {
         let numberString = number.toString();
-        rootItem.numberString = numberString;
+        rootItem.text = numberString;
         let chars = numberString.split('');
         const numbers = formatNumberString(chars.map(Number), 0);
         charArray = formatNumberString(numberString, ',');
@@ -69,7 +69,7 @@ Item {
     }
 
     Component.onCompleted: {
-        xPositions = calculateXPositions(numberString);
+        xPositions = calculateXPositions(text);
         initialized = true;
     }
 

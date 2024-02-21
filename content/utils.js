@@ -17,7 +17,7 @@ function numberOfDays(month) {
     return monthDays[month];
 }
 
-function getMonthAbbreviation(month_index) {
+function getMonthAbbreviation(monthIndex) {
     const monthsAbbreviations = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return monthsAbbreviations[month_index];
+    return monthsAbbreviations[monthIndex];
 }
