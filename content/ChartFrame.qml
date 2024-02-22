@@ -21,6 +21,11 @@ Item {
     property string formattedChange: `${(change > 0 ? "+" : "")}${(change / 1000).toFixed(1)}K this month`
     property string formattedChangePercentage: `${(changePercentage > 0 ? "+" : "")}${(changePercentage.toFixed(2))}%`
 
+    property color barNormalColor: "#2F2F38"
+    property color barHoverColor: "#646575"
+    property color barSelectingColor: "#9793D6"
+    property color barSelectedColor: "#5967ff"
+
     signal comboBoxCurrentTextChanged(string currentText)
 
     function setQuteNumber(num) {

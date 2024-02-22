@@ -13,6 +13,11 @@ Frame {
     property var label;
     property int nODays: 31;
 
+    property alias barNormalColor: chart.barNormalColor
+    property alias barHoverColor: chart.barHoverColor
+    property alias barSelectingColor: chart.barSelectingColor
+    property alias barSelectedColor: chart.barSelectedColor
+
     function getAverage() {
         const average = array => array.reduce((a, b) => a + b) / array.length;
         const avr = average(rootFrame.model);
@@ -110,6 +115,10 @@ Frame {
         id: chart
         anchors.fill: parent
         clip: true
+        property color barNormalColor: "#2F2F38"
+        property color barHoverColor: "#646575"
+        property color barSelectingColor: "#9793D6"
+        property color barSelectedColor: "#5967ff"
         property int maxRectHeight: 60
         property real count: chart.model.length;
         property real spacing: {
@@ -134,7 +143,7 @@ Frame {
                 repeater.initialized = true;
             }
             Rectangle {
-                id: chartRectangle
+                id: bar
                 width: chart.rect_width
                 height: {
                     const h = chart.model[index] / Math.max(...chart.model) * 60;
@@ -143,9 +152,10 @@ Frame {
                     return fixed_h;
                 }
                 y: chart.height - height - 30
-                color: chartRectangle.selected
-                       ? (chart.isSelecting ? "#9793D6" : "#5967ff")
-                       : (chartRectangle.hover ? "#646575" : "#2F2F38")
+
+                color: bar.selected
+                       ? (chart.isSelecting ? barSelectingColor : barSelectedColor)
+                       : (bar.hover ? barHoverColor : barNormalColor)
                 x: index * (chart.rect_width + chart.spacing);
                 radius: 2
                 property bool selected: false;
@@ -156,11 +166,11 @@ Frame {
                     hoverEnabled: true
 
                     onEntered: {
-                        chartRectangle.hover = true;
+                        bar.hover = true;
                     }
 
                     onExited: {
-                        chartRectangle.hover = false;
+                        bar.hover = false;
                     }
                 }
 
