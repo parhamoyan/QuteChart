@@ -7,8 +7,8 @@ import backend 1.0
 
 ApplicationWindow {
     id: window
-    width: 500
-    height: 500
+    width: 800
+    height: 800
 
     visible: true
     title: "Chart"
