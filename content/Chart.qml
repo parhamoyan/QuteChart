@@ -34,6 +34,8 @@ Frame {
         var max_x_pos = Math.max(x0, x1);
         var min_index = rootFrame.indexAtXPosition(min_x_pos);
         var max_index = rootFrame.indexAtXPosition(max_x_pos);
+        min_index = Math.max(0, min_index);
+        max_index = Math.min(max_index, rootFrame.nODays-1);
         return [min_index, max_index];
     }
 
@@ -210,7 +212,9 @@ Frame {
 
         MouseArea {
             property point pressedPoint
+            property point releasedPoint
             property int pressedIndex;
+            clip: true
 
             propagateComposedEvents: true
             anchors.fill: parent
@@ -218,7 +222,7 @@ Frame {
             onReleased: {
                 chart.isSelecting = false;
                 var x0 = pressedPoint.x;
-                var x1 = mouseX;
+                var x1 = releasedPoint.x;
                 const [min_index, max_index] = rootFrame.getIndexRange(x0, x1);
                 var x10 = chart.getRectPositionAtIndex(min_index);
                 var x20 = chart.getRectPositionAtIndex(max_index);
@@ -235,7 +239,7 @@ Frame {
                 label.number = rootFrame.sumOfRange(min_index, max_index);
 
                 const left = Math.min(x10, x20);
-                const right = Math.max(x10, x20)
+                const right = Math.max(x10, x20);
                 var x_pos = left + Math.abs(right - left) / 2 - label.width/2 + chart.rect_width/2;
                 label.x = x_pos;
             }
@@ -247,10 +251,13 @@ Frame {
                     var min_x_pos = Math.min(x0, x1);
                     var max_x_pos = Math.max(x0, x1);
                     var min_index = rootFrame.indexAtXPosition(min_x_pos);
+                    min_index = Math.max(0, min_index);
                     var max_index = rootFrame.indexAtXPosition(max_x_pos);
+                    max_index = Math.min(max_index, rootFrame.nODays-1);
                     rootFrame.selectRange(min_index, max_index);
+                    releasedPoint = Qt.point(mouseX, mouseY);
                 }
-            }   
+            }
 
             onPressed: {
                 chart.isSelecting = true;
