@@ -11,7 +11,8 @@ Frame {
     property list<int> model
     property var previousLabel
     property var label
-    property int nODays: 31
+    property string currentMonth: "January"
+    property int nODays: Utils.numberOfDays(currentMonth);
 
     property alias barNormalColor: chart.barNormalColor
     property alias barHoverColor: chart.barHoverColor
@@ -117,8 +118,8 @@ Frame {
         property int maxRectHeight: 60
         property real count: chart.model.length;
         property real spacing: {
-            const i = Utils.numberOfDays("January"); // TODO
-            return (chart.width - i * rect_width) / (i-1)
+            const n = rootFrame.nODays;
+            return (chart.width - n * rect_width) / (n-1)
         }
         property real rect_width: 4
         property bool isSelecting: false
@@ -128,74 +129,80 @@ Frame {
         function getRectPositionAtIndex(index) {
             return index * (chart.rect_width + chart.spacing);
         }
+        Item {
+            id: repeater_container
+            anchors.fill: parent
+            Repeater {
+                id: repeater
+                model: rootItem.model.length
+                anchors.fill: parent
+                property bool initialized: false;
+                property real bar_max_height: repeater_container.height - 30 - 10;
 
-        Repeater {
-            id: repeater
-            model: rootItem.model.length
-            property bool initialized: false;
-
-            Component.onCompleted: {
-                repeater.initialized = true;
-            }
-            Rectangle {
-                id: bar
-                width: chart.rect_width
-                height: {
-                    const h = chart.model[index] / Math.max(...chart.model) * 60;
-                    if (isNaN(h)) return 5;
-                    const fixed_h = Math.max(5, h);
-                    return fixed_h;
+                Component.onCompleted: {
+                    repeater.initialized = true;
                 }
-                y: chart.height - height - 30
+                Rectangle {
+                    id: bar
+                    width: chart.rect_width
+                    height: {
+                        const h = chart.model[index] / Math.max(...chart.model) * repeater.bar_max_height;
+                        if (isNaN(h)) return 5;
+                        const fixed_h = Math.max(5, h);
+                        return fixed_h;
+                    }
+                    y: chart.height - height - 30
 
-                color: bar.selected
-                       ? (chart.isSelecting ? barSelectingColor : barSelectedColor)
-                       : (bar.hover ? barHoverColor : barNormalColor)
-                x: index * (chart.rect_width + chart.spacing);
-                radius: 2
-                property bool selected: false;
-                property bool hover: false;
+                    color: bar.selected
+                           ? (chart.isSelecting ? barSelectingColor : barSelectedColor)
+                           : (bar.hover ? barHoverColor : barNormalColor)
+                    x: index * (chart.rect_width + chart.spacing);
+                    radius: 2
+                    property bool selected: false;
+                    property bool hover: false;
 
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
 
-                    onEntered: {
-                        bar.hover = true;
+                        onEntered: {
+                            bar.hover = true;
+                        }
+
+                        onExited: {
+                            bar.hover = false;
+                        }
                     }
 
-                    onExited: {
-                        bar.hover = false;
+                    Behavior on height {
+                        NumberAnimation {
+                            easing.bezierCurve: [0.445,0.05,0.55,0.95,1,1]
+                            duration: 800
+                        }
                     }
-                }
 
-                Behavior on height {
-                    NumberAnimation {
-                        easing.bezierCurve: [0.445,0.05,0.55,0.95,1,1]
-                        duration: 800
+                    Behavior on color {
+                        PropertyAnimation {
+                            easing.bezierCurve: [0.445,0.05,0.55,0.95,1,1]
+                            duration: 50
+                        }
                     }
-                }
 
-                Behavior on color {
-                    PropertyAnimation {
-                        easing.bezierCurve: [0.445,0.05,0.55,0.95,1,1]
-                        duration: 50
-                    }
-                }
-
-                Behavior on x {
-                    enabled: rootItem.initialized
-                    PropertyAnimation {
-                        easing.bezierCurve: [0.445,0.05,0.55,0.95,1,1]
-                        duration: 800
+                    Behavior on x {
+                        enabled: rootItem.initialized
+                        PropertyAnimation {
+                            easing.bezierCurve: [0.445,0.05,0.55,0.95,1,1]
+                            duration: 800
+                        }
                     }
                 }
             }
         }
 
+
         Rectangle {
             x: 0
-            y: 106
+            y: chart.height - 24
             width: chart.width
             height: 1
             color: "#27272E"
@@ -268,39 +275,32 @@ Frame {
 
     CustomDateRangleText {
         x: 0
-        y: 110
+        anchors.bottom: parent.bottom
         text: "01-04"
-
-        Behavior on x {
-            NumberAnimation {
-                duration: 500
-                easing.type: Easing.InOutQuad
-            }
-        }
     }
 
     CustomDateRangleText {
         x: 10 * (chart.rect_width + chart.spacing)
-        y: 110
+        anchors.bottom: parent.bottom
         text: "11-13"
     }
 
     CustomDateRangleText {
         x: 18 * (chart.rect_width + chart.spacing)
-        y: 110
+        anchors.bottom: parent.bottom
         text: "19-22"
     }
 
     CustomDateRangleText {
         anchors.right: parent.right
-        y: 110
+        anchors.bottom: parent.bottom
         text: (nODays - 3).toString() + "-" + nODays.toString()
     }
 
     AvgDottedLine {
         id: avgDottedLine
         x: 0
-        y: rootFrame.height - (rootFrame.getAverage() / Math.max(...chart.model) * 60) - avgDottedLine.height/2 - 30
+        y: rootFrame.height - (rootFrame.getAverage() / Math.max(...chart.model) * repeater.bar_max_height) - avgDottedLine.height/2 - 30
 
         Behavior on y {
             NumberAnimation {

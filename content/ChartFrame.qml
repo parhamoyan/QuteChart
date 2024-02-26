@@ -158,6 +158,7 @@ Item {
             Chart {
                 id: chart
                 model: rootItem.model
+                currentMonth: combo.currentText
             }
         }
     }
