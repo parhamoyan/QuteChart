@@ -8,10 +8,10 @@ import backend 1.0
 Frame {
     id: rootFrame
 
-    property list<int> model;
-    property var previousLabel;
-    property var label;
-    property int nODays: 31;
+    property list<int> model
+    property var previousLabel
+    property var label
+    property int nODays: 31
 
     property alias barNormalColor: chart.barNormalColor
     property alias barHoverColor: chart.barHoverColor
@@ -50,10 +50,6 @@ Frame {
         if (previousLabel) {
             previousLabel.disappear();
         }
-    }
-
-    function updateDottedLineY() {
-        avgDottedLine.y = rootFrame.height - (rootFrame.getAverage() / Math.max(...chart.model) * 60) - avgDottedLine.height/2 - 30;
     }
 
     function updateChart() {
@@ -99,7 +95,6 @@ Frame {
         running: true
 
         onTriggered: {
-            updateDottedLineY();
             avgDottedLine.state = "displayed";
         }
     }
@@ -305,7 +300,7 @@ Frame {
     AvgDottedLine {
         id: avgDottedLine
         x: 0
-        y: 0
+        y: rootFrame.height - (rootFrame.getAverage() / Math.max(...chart.model) * 60) - avgDottedLine.height/2 - 30
 
         Behavior on y {
             NumberAnimation {
@@ -314,6 +309,4 @@ Frame {
             }
         }
     }
-
-
 }

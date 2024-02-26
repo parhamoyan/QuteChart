@@ -34,22 +34,22 @@ Item {
     }
 
     onComboBoxCurrentTextChanged: (currentText) => {
-        controller.currentMonth = currentText;
+        currentMonth = currentText;
         model = backend.getMonthData(currentText);
         updateChange();
         updateChangePercentage();
         updateQuteNumber();
-        controller.previousMonth = currentText;
+        previousMonth = currentText;
     }
 
     onUpdateChange: {
-        change = controller.difference(controller.previousMonth, controller.currentMonth);
+        change = difference(previousMonth, currentMonth);
     }
 
     onUpdateMonth: (preMonth, curMonth) => {
-       controller.currentMonth = curMonth;
+       currentMonth = curMonth;
        model = backend.getMonthData(curMonth);
-       controller.previousMonth = curMonth;
+       previousMonth = curMonth;
     }
 
     Backend {
@@ -61,12 +61,12 @@ Item {
     }
 
     function calculateQuteNumber() {
-        const total = controller.model.reduce((a, b) => a + b);
+        const total = model.reduce((a, b) => a + b);
         return total;
     }
 
     function difference(preMonth, curMonth) {
-        if (preMonth === controller.currentMonth) return 8100;
+        if (preMonth === currentMonth) return 8100;
         const previousMonthData = backend.getMonthData(preMonth);
         const currentMonthData = backend.getMonthData(curMonth);
         const tot = array => array.reduce((a, b) => a + b);
@@ -77,7 +77,7 @@ Item {
     }
 
     function differencePercentage(preMonth, curMonth) {
-        if (preMonth === controller.currentMonth) return 1.49;
+        if (preMonth === currentMonth) return 1.49;
         const previousMonthData = backend.getMonthData(preMonth);
         const currentMonthData = backend.getMonthData(curMonth);
         const tot = array => array.reduce((a, b) => a + b);
