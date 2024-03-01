@@ -1,6 +1,6 @@
 MetaInfo {
     Type {
-        name: "CuteChart.EventListSimulator"
+        name: "QuteChart.EventListSimulator"
         icon: ":/qtquickplugin/images/item-icon16.png"
 
         Hints {

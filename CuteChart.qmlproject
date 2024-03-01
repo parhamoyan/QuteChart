@@ -89,7 +89,7 @@ Project {
     importPaths: [ "imports", "asset_imports" ]
 
     /* Required for deployment */
-    targetDirectory: "/opt/CuteChart"
+    targetDirectory: "/opt/QuteChart"
 
     qdsVersion: "4.1"
 
