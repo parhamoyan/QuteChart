@@ -32,7 +32,6 @@ qt6_add_qml_module(QuteChart
         QuteLabel.qml
         DateRangeText.qml
         utils.js
-        ChartFrameController.qml
         StatusItem.qml
         QuteEffects/VerticalGradientOpacity.qml
         QuteEffects/HorizontalGradientOpacity.qml

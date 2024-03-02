@@ -9,4 +9,5 @@ qt6_add_qml_module(content
         App.qml
     RESOURCES
         fonts/fonts.txt
+        QML_FILES ChartFrameController.qml
 )
