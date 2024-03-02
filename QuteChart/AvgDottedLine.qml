@@ -1,6 +1,5 @@
 import QtQuick 6.2
 import QtQuick.Effects
-import QuteEffects 1.0
 
 Item {
     id: rootItem

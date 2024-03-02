@@ -3,7 +3,6 @@ import QtQuick.Controls 6.2
 import QtQuick.Layouts
 import QtQuick.Effects
 import "utils.js" as Utils
-import backend 1.0
 
 Frame {
     id: rootFrame

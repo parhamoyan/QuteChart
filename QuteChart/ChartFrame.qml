@@ -3,13 +3,18 @@ import QtQuick.Controls 6.2
 import QtQuick.Layouts
 import QtQuick.Effects
 import "utils.js" as Utils
-import backend 1.0
 
 Item {
     id: rootItem
     width: 354
     height: 298
     focus: true
+
+    FontLoader {
+        id: wotfardFont
+        source: "fonts/Wotfard-Regular.otf"
+    }
+
 
     property int animationDuration: 1000
     property bool initialized: false;
@@ -44,10 +49,6 @@ Item {
             duration: 800
             easing.type: Easing.InOutQuad
         }
-    }
-
-    Backend {
-        id: backend
     }
 
     property Component background: Rectangle {
