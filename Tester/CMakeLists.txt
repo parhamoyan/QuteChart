@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.21.1)
 
-option(LINK_INSIGHT "Link Qt Insight Tracker library" ON)
-option(BUILD_QDS_COMPONENTS "Build design studio components" ON)
-
 project(TesterApp LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
@@ -12,8 +9,6 @@ find_package(Qt6 6.2 REQUIRED COMPONENTS Core Gui Qml Quick)
 if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
-
-add_subdirectory(../QuteChart ./QuteChart)
 
 qt_add_executable(TesterApp src/main.cpp src/Backend.h src/Backend.cpp)
 
@@ -29,23 +24,22 @@ target_link_libraries(TesterApp PRIVATE
     Qt6::Qml
     Qt6::Quick
     QuteChartplugin
+    QuteChartKit
 )
 
-if (BUILD_QDS_COMPONENTS)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/qmlcomponents)
-endif()
+qt6_add_qml_module(${CMAKE_PROJECT_NAME}
+    URI "Main"
+    VERSION 1.0
+    NO_PLUGIN
+    QML_FILES main.qml
+)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/qmlmodules)
+add_subdirectory(content)
+add_subdirectory(imports)
 
-if (LINK_INSIGHT)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/insight)
-endif ()
-
-include(GNUInstallDirs)
-install(TARGETS TesterApp
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
+    contentplugin
+    Testerplugin
 )
 
 # make IDEs aware of the QML import path
